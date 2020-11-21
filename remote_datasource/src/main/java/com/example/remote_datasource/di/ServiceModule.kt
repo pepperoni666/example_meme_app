@@ -1,7 +1,8 @@
 package com.example.remote_datasource.di
 
 import com.example.remote_datasource.RemoteRepository
-import com.example.remote_datasource.UseCase
+import com.example.remote_datasource.feed.FeedUseCase
+import com.example.remote_datasource.profile.ProfileUseCase
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -20,9 +21,7 @@ object ServiceModule{
         single {
             // Define the interceptor, add authentication headers
             val interceptor = Interceptor { chain ->
-                val newRequest: Request =
-                    chain.request().newBuilder()//.addHeader("User-Agent", "Retrofit-Sample-App")
-                        .build()
+                val newRequest = chain.request().newBuilder().build()
                 chain.proceed(newRequest)
             }
 
@@ -32,7 +31,7 @@ object ServiceModule{
             val httpLoggingInterceptor = HttpLoggingInterceptor()
             httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             builder.networkInterceptors().add(httpLoggingInterceptor)
-            builder.networkInterceptors().add(interceptor)
+//            builder.networkInterceptors().add(interceptor)
             val client = builder.build()
 
             Retrofit.Builder()
@@ -43,8 +42,10 @@ object ServiceModule{
                 .build()
         }
 
-        factory { RemoteRepository(get()) }
+        single { RemoteRepository(get()) }
 
-        factory { UseCase(get()) }
+        factory { FeedUseCase(get()) }
+
+        factory { ProfileUseCase(get()) }
     }
 }
