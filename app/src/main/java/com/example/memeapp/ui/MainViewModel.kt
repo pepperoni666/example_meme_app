@@ -17,7 +17,8 @@ class MainViewModel: ViewModel(), KoinComponent {
     private val profileUseCase: ProfileUseCase by inject()
     private val profileMutableLiveData = MutableLiveData<Profile>()
     val profileLiveData: LiveData<Profile> = profileMutableLiveData
-    val loading = MutableLiveData(false)
+    val feedLoading = MutableLiveData(false)
+    val profileLoading = MutableLiveData(false)
     private val compositeDisposable = CompositeDisposable()
     private val feedUseCase: FeedUseCase by inject()
     private val feedMutableLiveData = MutableLiveData<List<FeedItem>>()
@@ -31,8 +32,8 @@ class MainViewModel: ViewModel(), KoinComponent {
 
     fun getFeed(){
         feedUseCase()
-            ?.doOnSubscribe { loading.postValue(true) }
-            ?.doOnTerminate { loading.postValue(false) }
+            ?.doOnSubscribe { feedLoading.postValue(true) }
+            ?.doOnTerminate { feedLoading.postValue(false) }
             ?.subscribe({feed ->
                 feed?.feedList?.let {
                     feedMutableLiveData.postValue(it.shuffled())
@@ -44,8 +45,8 @@ class MainViewModel: ViewModel(), KoinComponent {
 
     fun getProfile(){
         profileUseCase()
-            ?.doOnSubscribe { loading.postValue(true) }
-            ?.doOnTerminate { loading.postValue(false) }
+            ?.doOnSubscribe { profileLoading.postValue(true) }
+            ?.doOnTerminate { profileLoading.postValue(false) }
             ?.subscribe({
                 profileMutableLiveData.postValue(it)
             }, {

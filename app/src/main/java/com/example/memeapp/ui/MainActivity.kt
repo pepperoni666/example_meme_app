@@ -5,14 +5,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.memeapp.R
 import com.example.remote_datasource.feed.FeedItem
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
@@ -33,10 +31,6 @@ class MainActivity : AppCompatActivity() {
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        viewModel.loading.observe({ lifecycle }, {
-            loading_view.isVisible = it
-        })
 
         viewModel.getFeed()
         viewModel.getProfile()

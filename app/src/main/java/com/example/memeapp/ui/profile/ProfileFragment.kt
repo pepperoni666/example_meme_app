@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import com.example.memeapp.R
 import com.example.memeapp.ui.MainViewModel
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.feed_item.view.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import org.koin.core.component.KoinApiExtension
 
@@ -33,6 +33,10 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.profileLoading.observe(viewLifecycleOwner, {
+            loading_view.isVisible = it
+        })
 
         profileViewModel.nameMutableLiveData.observe({ lifecycle }, {
             profile_name.text = it
