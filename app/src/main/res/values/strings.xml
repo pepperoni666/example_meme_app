@@ -2,4 +2,11 @@
     <string name="app_name">MemeApp</string>
     <string name="title_feed">Feed</string>
     <string name="title_profile">Profile</string>
+    <string name="title_detail">Detail</string>
+    <string name="description_meme">meme</string>
+    <string name="description_profile">profile picture</string>
+    <string name="feed_item_likes">Likes: %1$d</string>
+    <string name="detail_like">Like</string>
+    <string name="detail_liked">Liked</string>
+    <string name="profile_liked">Liked: %1$d</string>
 </resources>
