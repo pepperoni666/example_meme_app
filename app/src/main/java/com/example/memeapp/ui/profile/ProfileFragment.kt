@@ -31,17 +31,27 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    private fun observeViewModel(){
         viewModel.profileLoading.observe(viewLifecycleOwner, {
             loading_view.isVisible = it
         })
 
-        profileViewModel.nameMutableLiveData.observe({ lifecycle }, {
-            profile_name.text = it
-            edit_name.setText(it)
-            profile_liked_number
+        viewModel.profileLiveData.observe(viewLifecycleOwner, {
+            Picasso.get().load(it.pic).into(profile_pic)
+            profile_name.text = it.name
+            edit_name.setText(it.name)
+            profileViewModel.profile = it
+        })
+
+        viewModel.feedLiveData.observe(viewLifecycleOwner, {list ->
+            val n = list.count { it.liked }
+            profile_liked_number.text = context?.resources?.getString(R.string.profile_liked)?.let { String.format(it, n) }
+        })
+    }
+
+    private fun observeProfileViewModel(){
+        profileViewModel.loading.observe({ lifecycle }, {
+            loading_view.isVisible = it
         })
 
         profileViewModel.editingMutableLiveData.observe({ lifecycle }, {
@@ -49,22 +59,23 @@ class ProfileFragment : Fragment() {
             name_edition.isVisible = it
         })
 
-        viewModel.profileLiveData.observe(viewLifecycleOwner, {
-            Picasso.get().load(it.pic).into(profile_pic)
-            profileViewModel.nameMutableLiveData.postValue(it.name)
+        profileViewModel.updatedProfileLiveData.observe({ lifecycle }, {
+            viewModel.updateProfile(it)
         })
+    }
 
-        viewModel.feedLiveData.observe(viewLifecycleOwner, {list ->
-            val n = list.count { it.liked }
-            profile_liked_number.text = context?.resources?.getString(R.string.profile_liked)?.let { String.format(it, n) }
-        })
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        observeViewModel()
+        observeProfileViewModel()
 
         profile_name.setOnClickListener {
             profileViewModel.editingMutableLiveData.postValue(true)
         }
 
         save_name_btn.setOnClickListener {
-            profileViewModel.nameMutableLiveData.postValue(edit_name.text.toString())
+            profileViewModel.updateName(edit_name.text.toString())
             profileViewModel.editingMutableLiveData.postValue(false)
             hideKeyboard(it)
         }
