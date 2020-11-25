@@ -14,8 +14,6 @@ import org.koin.core.component.KoinApiExtension
 @KoinApiExtension
 class ProfileFragment : Fragment() {
 
-    private val profileViewModel: ProfileViewModel by viewModels()
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -26,9 +24,5 @@ class ProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        profileViewModel.text.observe({ lifecycle }, Observer {
-            text_home.text = it
-        })
-        profileViewModel.getProfile()
     }
 }

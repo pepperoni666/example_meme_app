@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.DetailActivity">
+
+    <ImageView
+        android:id="@+id/meme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/description_profile"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/meme_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="30sp"
+        android:textColor="#1E1E1E"
+        android:layout_above="@+id/like_btn"/>
+
+    <Button
+        android:id="@+id/like_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/detail_like"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

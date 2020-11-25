@@ -14,8 +14,6 @@ import org.koin.core.component.KoinApiExtension
 @KoinApiExtension
 class FeedFragment : Fragment() {
 
-    private val feedViewModel: FeedViewModel by viewModels()
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -26,9 +24,5 @@ class FeedFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        feedViewModel.text.observe({ lifecycle }, Observer {
-            text_dashboard.text = it
-        })
-        feedViewModel.getFeed()
     }
 }

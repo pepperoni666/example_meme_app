@@ -2,6 +2,8 @@ package com.example.remote_datasource.di
 
 import com.example.remote_datasource.RemoteRepository
 import com.example.remote_datasource.feed.FeedUseCase
+import com.example.remote_datasource.feed.MemeLikedUseCase
+import com.example.remote_datasource.profile.ChangeNameUseCase
 import com.example.remote_datasource.profile.ProfileUseCase
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -47,5 +49,9 @@ object ServiceModule{
         factory { FeedUseCase(get()) }
 
         factory { ProfileUseCase(get()) }
+
+        factory { MemeLikedUseCase(get()) }
+
+        factory { ChangeNameUseCase(get()) }
     }
 }
