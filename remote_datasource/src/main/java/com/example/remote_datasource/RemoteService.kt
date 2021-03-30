@@ -38,7 +38,7 @@ class RemoteRepository(retrofit: Retrofit) {
         return if(BuildConfig.BUILD_TYPE == "mock") {
             Observable.fromCallable {
                 mockedFeed
-            }.delaySubscription(2000, TimeUnit.MILLISECONDS)
+            }.delay(2000, TimeUnit.MILLISECONDS)
         } else {
             client.getFeed()
         }
@@ -49,7 +49,7 @@ class RemoteRepository(retrofit: Retrofit) {
             Observable.fromCallable {
                 mockedFeed = updatedFeed
                 mockedFeed
-            }.delaySubscription(2000, TimeUnit.MILLISECONDS)
+            }.delay(2000, TimeUnit.MILLISECONDS)
         } else {
             client.memeLiked(updatedFeed)
         }
@@ -59,7 +59,7 @@ class RemoteRepository(retrofit: Retrofit) {
         return if(BuildConfig.BUILD_TYPE == "mock") {
             Observable.fromCallable {
                 mockedProfile
-            }.delaySubscription(2000, TimeUnit.MILLISECONDS)
+            }.delay(2000, TimeUnit.MILLISECONDS)
         } else {
             client.getProfile()
         }
@@ -70,7 +70,7 @@ class RemoteRepository(retrofit: Retrofit) {
             Observable.fromCallable {
                 mockedProfile = profile
                 mockedProfile
-            }.delaySubscription(2000, TimeUnit.MILLISECONDS)
+            }.delay(2000, TimeUnit.MILLISECONDS)
         } else {
             client.changeName(profile)
         }
