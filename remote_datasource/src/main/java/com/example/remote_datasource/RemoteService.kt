@@ -4,6 +4,7 @@ import com.example.remote_datasource.feed.Feed
 import com.example.remote_datasource.feed.FeedItem
 import com.example.remote_datasource.profile.Profile
 import io.reactivex.Observable
+import kotlinx.coroutines.delay
 import retrofit2.Retrofit
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -12,16 +13,16 @@ import java.util.concurrent.TimeUnit
 
 interface RemoteServiceInterface{
     @GET("feed")
-    fun getFeed(): Observable<Feed?>?
+    suspend fun getFeed(): Feed?
 
     @GET("Profile")
-    fun getProfile(): Observable<Profile?>?
+    suspend fun getProfile(): Profile?
 
     @PUT("Profile")
-    fun changeName(@Body profile: Profile): Observable<Profile?>?
+    suspend fun changeName(@Body profile: Profile): Profile?
 
     @PUT("feed")
-    fun memeLiked(@Body updatedFeed: Feed): Observable<Feed?>?
+    suspend fun memeLiked(@Body updatedFeed: Feed): Feed?
 }
 
 class RemoteRepository(retrofit: Retrofit) {
@@ -34,43 +35,39 @@ class RemoteRepository(retrofit: Retrofit) {
         FeedItem(3, "https://i.picsum.photos/id/1002/4312/2868.jpg?hmac=5LlLE-NY9oMnmIQp7ms6IfdvSUQOzP_O3DPMWmyNxwo", "Mock 3", 0)
     ))
 
-    fun getFeed(): Observable<Feed?>? {
+    suspend fun getFeed(): Feed? {
         return if(BuildConfig.BUILD_TYPE == "mock") {
-            Observable.fromCallable {
-                mockedFeed
-            }.delay(2000, TimeUnit.MILLISECONDS)
+            delay(2000)
+            mockedFeed
         } else {
             client.getFeed()
         }
     }
 
-    fun memeLiked(updatedFeed: Feed): Observable<Feed?>? {
+    suspend fun memeLiked(updatedFeed: Feed): Feed? {
         return if(BuildConfig.BUILD_TYPE == "mock") {
-            Observable.fromCallable {
-                mockedFeed = updatedFeed
-                mockedFeed
-            }.delay(2000, TimeUnit.MILLISECONDS)
+            delay(2000)
+            mockedFeed = updatedFeed
+            mockedFeed
         } else {
             client.memeLiked(updatedFeed)
         }
     }
 
-    fun getProfile(): Observable<Profile?>? {
+    suspend fun getProfile(): Profile? {
         return if(BuildConfig.BUILD_TYPE == "mock") {
-            Observable.fromCallable {
-                mockedProfile
-            }.delay(2000, TimeUnit.MILLISECONDS)
+            delay(2000)
+            mockedProfile
         } else {
             client.getProfile()
         }
     }
 
-    fun changeName(profile: Profile): Observable<Profile?>? {
+    suspend fun changeName(profile: Profile): Profile? {
         return if(BuildConfig.BUILD_TYPE == "mock") {
-            Observable.fromCallable {
-                mockedProfile = profile
-                mockedProfile
-            }.delay(2000, TimeUnit.MILLISECONDS)
+            delay(2000)
+            mockedProfile = profile
+            mockedProfile
         } else {
             client.changeName(profile)
         }

@@ -59,7 +59,6 @@ class DetailActivity: AppCompatActivity() {
     companion object{
 
         const val DETAIL_EXTRA_ITEM = "DETAIL_EXTRA_ITEM"
-        const val DETAIL_REQUEST = 434
         const val DETAIL_LIKED = "DETAIL_LIKED"
 
         fun getIntent(context: Context, item: FeedItem): Intent{

@@ -3,74 +3,59 @@ package com.example.memeapp.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.airbnb.mvrx.*
 import com.example.remote_datasource.feed.Feed
 import com.example.remote_datasource.feed.FeedItem
 import com.example.remote_datasource.feed.FeedUseCase
 import com.example.remote_datasource.feed.MemeLikedUseCase
 import com.example.remote_datasource.profile.Profile
 import com.example.remote_datasource.profile.ProfileUseCase
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.delay
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.lang.Exception
+
+data class MainState(
+    val feed: Async<Feed> = Uninitialized,
+    val profile: Async<Profile> = Uninitialized
+) : MavericksState {
+    val feedList get() = feed()?.feedList
+}
 
 @KoinApiExtension
-class MainViewModel: ViewModel(), KoinComponent {
+class MainViewModel(initialState: MainState) : MavericksViewModel<MainState>(initialState),
+    KoinComponent {
+
     private val profileUseCase: ProfileUseCase by inject()
-    private val profileMutableLiveData = MutableLiveData<Profile>()
-    val profileLiveData: LiveData<Profile> = profileMutableLiveData
-    val feedLoading = MutableLiveData(false)
-    val profileLoading = MutableLiveData(false)
-    private val compositeDisposable = CompositeDisposable()
     private val feedUseCase: FeedUseCase by inject()
     private val memeLikedUseCase: MemeLikedUseCase by inject()
-    private val feedMutableLiveData = MutableLiveData<List<FeedItem>>()
-    val feedLiveData: LiveData<List<FeedItem>> = feedMutableLiveData
 
-    private fun handleLoadingFeed(observable: Observable<Feed?>?){
-        observable
-            ?.doOnSubscribe { feedLoading.postValue(true) }
-            ?.doOnTerminate { feedLoading.postValue(false) }
-            ?.subscribe({feed ->
-                feed?.feedList?.let { list ->
-                    feedMutableLiveData.postValue(list.shuffled())
-                }
-            }, { throwable ->
-                throwable.printStackTrace()
-            })?.run { compositeDisposable.add(this) }
-    }
-
-    fun likeMeme(item: FeedItem){
-        val updatedList = feedMutableLiveData.value?.toMutableList()
-        updatedList?.set(updatedList.indexOf(item), item.copy( liked = !item.liked ))
-        updatedList?.let {
-            handleLoadingFeed(memeLikedUseCase(Feed(it)))
-
+    fun likeMeme(item: FeedItem) = withState { state ->
+        val updatedList = state.feedList?.toMutableList()
+        updatedList?.set(updatedList.indexOf(item), item.copy(liked = !item.liked))
+        updatedList?.let { list ->
+            suspend {
+                memeLikedUseCase(Feed(list)) ?: throw Exception()
+            }.execute { copy(feed = it) }
         }
     }
 
-    fun updateProfile(profile: Profile){
-        profileMutableLiveData.postValue(profile)
+    fun updateProfile(profile: Profile) = setState {
+        copy(profile = Success(profile))
     }
 
-    fun getFeed(){
-        handleLoadingFeed(feedUseCase())
+    fun getFeed() {
+        suspend {
+            feedUseCase()?.let {
+                Feed(it.feedList?.shuffled())
+            } ?: throw Exception()
+        }.execute { copy(feed = it) }
     }
 
-    fun getProfile(){
-        profileUseCase()
-            ?.doOnSubscribe { profileLoading.postValue(true) }
-            ?.doOnTerminate { profileLoading.postValue(false) }
-            ?.subscribe({
-                profileMutableLiveData.postValue(it)
-            }, {
-                it.printStackTrace()
-            })?.run { compositeDisposable.add(this) }
-    }
-
-    override fun onCleared() {
-        compositeDisposable.clear()
-        super.onCleared()
+    fun getProfile() {
+        suspend {
+            profileUseCase() ?: throw Exception()
+        }.execute { copy(profile = it) }
     }
 }

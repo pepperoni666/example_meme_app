@@ -9,14 +9,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.airbnb.mvrx.MavericksView
 import com.example.memeapp.R
 import com.example.remote_datasource.feed.FeedItem
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
 class MainActivity : AppCompatActivity() {
-
-    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,21 +30,5 @@ class MainActivity : AppCompatActivity() {
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        viewModel.getFeed()
-        viewModel.getProfile()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
-            DetailActivity.DETAIL_REQUEST -> {
-                if(resultCode == RESULT_OK){
-                    data?.getParcelableExtra<FeedItem>(DetailActivity.DETAIL_LIKED)?.let {
-                        viewModel.likeMeme(it)
-                    }
-                }
-            }
-        }
     }
 }

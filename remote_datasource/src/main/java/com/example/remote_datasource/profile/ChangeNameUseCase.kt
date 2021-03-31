@@ -6,9 +6,5 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class ChangeNameUseCase(private val repository: RemoteRepository) {
-    operator fun invoke(profile: Profile): Observable<Profile?>? {
-        return repository.changeName(profile)
-            ?.subscribeOn(Schedulers.io())
-            ?.observeOn(AndroidSchedulers.mainThread())
-    }
+    suspend operator fun invoke(profile: Profile) = repository.changeName(profile)
 }
