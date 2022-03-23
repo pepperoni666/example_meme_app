@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.remote_datasource.feed.Feed
 import com.example.remote_datasource.feed.FeedItem
-import com.example.remote_datasource.feed.FeedUseCase
-import com.example.remote_datasource.feed.MemeLikedUseCase
 import com.example.remote_datasource.profile.Profile
-import com.example.remote_datasource.profile.ProfileUseCase
+import com.example.usecase.feed.FeedUseCase
+import com.example.usecase.feed.MemeLikedUseCase
+import com.example.usecase.profile.ProfileUseCase
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.core.component.KoinApiExtension

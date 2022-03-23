@@ -11,10 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.memeapp.R
+import com.example.memeapp.databinding.FragmentProfileBinding
 import com.example.memeapp.ui.MainViewModel
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_profile.*
 import org.koin.core.component.KoinApiExtension
 
 @KoinApiExtension
@@ -23,40 +22,44 @@ class ProfileFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private val profileViewModel: ProfileViewModel by viewModels()
 
+    private var binding: FragmentProfileBinding? = null
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding?.root
     }
 
     private fun observeViewModel(){
-        viewModel.profileLoading.observe(viewLifecycleOwner, {
-            loading_view.isVisible = it
-        })
+        viewModel.profileLoading.observe(viewLifecycleOwner) {
+            binding?.loadingView?.isVisible = it
+        }
 
-        viewModel.profileLiveData.observe(viewLifecycleOwner, {
-            Picasso.get().load(it.pic).into(profile_pic)
-            profile_name.text = it.name
-            edit_name.setText(it.name)
+        viewModel.profileLiveData.observe(viewLifecycleOwner) {
+            Picasso.get().load(it.pic).into(binding?.profilePic)
+            binding?.profileName?.text = it.name
+            binding?.editName?.setText(it.name)
             profileViewModel.profile = it
-        })
+        }
 
-        viewModel.feedLiveData.observe(viewLifecycleOwner, {list ->
+        viewModel.feedLiveData.observe(viewLifecycleOwner) { list ->
             val n = list.count { it.liked }
-            profile_liked_number.text = context?.resources?.getString(R.string.profile_liked)?.let { String.format(it, n) }
-        })
+            binding?.profileLikedNumber?.text =
+                context?.resources?.getString(R.string.profile_liked)?.let { String.format(it, n) }
+        }
     }
 
     private fun observeProfileViewModel(){
         profileViewModel.loading.observe({ lifecycle }, {
-            loading_view.isVisible = it
+            binding?.loadingView?.isVisible = it
         })
 
         profileViewModel.editingMutableLiveData.observe({ lifecycle }, {
-            profile_name.isVisible = !it
-            name_edition.isVisible = it
+            binding?.profileName?.isVisible = !it
+            binding?.nameEdition?.isVisible = it
         })
 
         profileViewModel.updatedProfileLiveData.observe({ lifecycle }, {
@@ -70,23 +73,23 @@ class ProfileFragment : Fragment() {
         observeViewModel()
         observeProfileViewModel()
 
-        profile_name.setOnClickListener {
+        binding?.profileName?.setOnClickListener {
             profileViewModel.editingMutableLiveData.postValue(true)
         }
 
-        save_name_btn.setOnClickListener {
-            profileViewModel.updateName(edit_name.text.toString())
+        binding?.saveNameBtn?.setOnClickListener {
+            profileViewModel.updateName(binding?.editName?.text.toString())
             profileViewModel.editingMutableLiveData.postValue(false)
             hideKeyboard(it)
         }
 
-        cancel_name_btn.setOnClickListener {
+        binding?.cancelNameBtn?.setOnClickListener {
             profileViewModel.editingMutableLiveData.postValue(false)
             hideKeyboard(it)
         }
 
-        swiperefresh.setOnRefreshListener {
-            swiperefresh.isRefreshing = false
+        binding?.swiperefresh?.setOnRefreshListener {
+            binding?.swiperefresh?.isRefreshing = false
             viewModel.getProfile()
         }
     }

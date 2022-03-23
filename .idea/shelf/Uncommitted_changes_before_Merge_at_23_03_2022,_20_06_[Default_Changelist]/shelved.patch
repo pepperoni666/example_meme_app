@@ -1,0 +1,1008 @@
+Index: remote_datasource/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/remote_datasource/build.gradle b/remote/build.gradle
+rename from remote_datasource/build.gradle
+rename to remote/build.gradle
+--- a/remote_datasource/build.gradle	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/remote/build.gradle	(date 1648061352644)
+@@ -3,12 +3,12 @@
+ apply plugin: 'kotlin-android-extensions'
+ 
+ android {
+-    compileSdkVersion 29
+-    buildToolsVersion "30.0.0"
++    compileSdkVersion 31
++    buildToolsVersion "30.0.3"
+ 
+     defaultConfig {
+         minSdkVersion 23
+-        targetSdkVersion 29
++        targetSdkVersion 31
+         versionCode 1
+         versionName "1.0"
+ 
+@@ -28,19 +28,19 @@
+ dependencies {
+     implementation fileTree(dir: "libs", include: ["*.jar"])
+     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+-    implementation 'androidx.core:core-ktx:1.3.2'
+-    implementation 'androidx.appcompat:appcompat:1.2.0'
+-    testImplementation 'junit:junit:4.12'
+-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
++    implementation 'androidx.core:core-ktx:1.7.0'
++    implementation 'androidx.appcompat:appcompat:1.4.1'
++    testImplementation 'junit:junit:4.13.2'
++    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
++    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+ 
+     // Retrofit
+-    implementation 'com.google.code.gson:gson:2.8.6'
++    implementation 'com.google.code.gson:gson:2.8.8'
+     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
++    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+ 
+-    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+-    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
++    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
++    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+ 
+     //RxJava adapter
+     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+Index: .idea/runConfigurations.xml
+===================================================================
+diff --git a/.idea/runConfigurations.xml b/.idea/runConfigurations.xml
+deleted file mode 100644
+--- a/.idea/runConfigurations.xml	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ /dev/null	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
+@@ -1,12 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="RunConfigurationProducerService">
+-    <option name="ignoredProducers">
+-      <set>
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.AllInPackageGradleConfigurationProducer" />
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestClassGradleConfigurationProducer" />
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestMethodGradleConfigurationProducer" />
+-      </set>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: usecase/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/usecase/src/main/AndroidManifest.xml b/usecase/src/main/AndroidManifest.xml
+new file mode 100644
+--- /dev/null	(date 1645087058070)
++++ b/usecase/src/main/AndroidManifest.xml	(date 1645087058070)
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.example.usecase">
++
++</manifest>
+\ No newline at end of file
+Index: usecase/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/usecase/build.gradle b/usecase/build.gradle
+new file mode 100644
+--- /dev/null	(date 1648038038553)
++++ b/usecase/build.gradle	(date 1648038038553)
+@@ -0,0 +1,50 @@
++plugins {
++    id 'com.android.library'
++    id 'org.jetbrains.kotlin.android'
++}
++
++android {
++    compileSdkVersion 31
++
++    defaultConfig {
++        minSdkVersion 23
++        targetSdkVersion 31
++
++        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
++        consumerProguardFiles "consumer-rules.pro"
++    }
++
++    buildTypes {
++        release {
++            minifyEnabled false
++            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
++        }
++        mock {}
++    }
++    compileOptions {
++        sourceCompatibility JavaVersion.VERSION_1_8
++        targetCompatibility JavaVersion.VERSION_1_8
++    }
++    kotlinOptions {
++        jvmTarget = '1.8'
++    }
++}
++
++dependencies {
++
++    implementation 'androidx.core:core-ktx:1.7.0'
++    implementation 'androidx.appcompat:appcompat:1.4.1'
++    implementation 'com.google.android.material:material:1.5.0'
++    testImplementation 'junit:junit:4.13.2'
++    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
++    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
++
++    //RxJava
++    implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
++    //RxAndroid
++    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
++
++    implementation 'org.koin:koin-android:2.2.1'
++
++    api project(':remote')
++}
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_8\" default=\"true\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/.idea/misc.xml	(date 1645085302680)
+@@ -1,5 +1,14 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="DesignSurface">
++    <option name="filePathToZoomLevelMap">
++      <map>
++        <entry key="app/src/main/res/layout/feed_item.xml" value="0.1" />
++        <entry key="app/src/main/res/layout/fragment_feed.xml" value="0.14387031408308004" />
++        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.19610507246376813" />
++      </map>
++    </option>
++  </component>
+   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+Index: usecase/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/usecase/.gitignore b/usecase/.gitignore
+new file mode 100644
+--- /dev/null	(date 1645087057986)
++++ b/usecase/.gitignore	(date 1645087057986)
+@@ -0,0 +1,1 @@
++/build
+\ No newline at end of file
+Index: remote_datasource/src/main/java/com/example/remote_datasource/feed/MemeLikedUseCase.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/remote_datasource/src/main/java/com/example/remote_datasource/feed/MemeLikedUseCase.kt b/usecase/src/main/java/com/example/usecase/feed/MemeLikedUseCase.kt
+rename from remote_datasource/src/main/java/com/example/remote_datasource/feed/MemeLikedUseCase.kt
+rename to usecase/src/main/java/com/example/usecase/feed/MemeLikedUseCase.kt
+--- a/remote_datasource/src/main/java/com/example/remote_datasource/feed/MemeLikedUseCase.kt	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/usecase/src/main/java/com/example/usecase/feed/MemeLikedUseCase.kt	(date 1645087983344)
+@@ -1,6 +1,7 @@
+-package com.example.remote_datasource.feed
++package com.example.usecase.feed
+ 
+ import com.example.remote_datasource.RemoteRepository
++import com.example.remote_datasource.feed.Feed
+ import io.reactivex.Observable
+ import io.reactivex.android.schedulers.AndroidSchedulers
+ import io.reactivex.schedulers.Schedulers
+Index: remote_datasource/src/main/java/com/example/remote_datasource/feed/FeedUseCase.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/remote_datasource/src/main/java/com/example/remote_datasource/feed/FeedUseCase.kt b/usecase/src/main/java/com/example/usecase/feed/FeedUseCase.kt
+rename from remote_datasource/src/main/java/com/example/remote_datasource/feed/FeedUseCase.kt
+rename to usecase/src/main/java/com/example/usecase/feed/FeedUseCase.kt
+--- a/remote_datasource/src/main/java/com/example/remote_datasource/feed/FeedUseCase.kt	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/usecase/src/main/java/com/example/usecase/feed/FeedUseCase.kt	(date 1645087983349)
+@@ -1,6 +1,7 @@
+-package com.example.remote_datasource.feed
++package com.example.usecase.feed
+ 
+ import com.example.remote_datasource.RemoteRepository
++import com.example.remote_datasource.feed.Feed
+ import io.reactivex.Observable
+ import io.reactivex.android.schedulers.AndroidSchedulers
+ import io.reactivex.schedulers.Schedulers
+Index: app/src/main/java/com/example/memeapp/MemeApp.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.memeapp\n\nimport android.app.Application\nimport com.example.remote_datasource.di.ServiceModule\nimport org.koin.android.ext.koin.androidContext\nimport org.koin.android.ext.koin.androidLogger\nimport org.koin.core.context.startKoin\n\nclass MemeApp : Application() {\n    override fun onCreate() {\n        super.onCreate()\n        startKoin{\n            androidLogger()\n            androidContext(this@MemeApp)\n            modules(ServiceModule.serviceModule)\n        }\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/memeapp/MemeApp.kt b/app/src/main/java/com/example/memeapp/MemeApp.kt
+--- a/app/src/main/java/com/example/memeapp/MemeApp.kt	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/app/src/main/java/com/example/memeapp/MemeApp.kt	(date 1648038428162)
+@@ -2,17 +2,19 @@
+ 
+ import android.app.Application
+ import com.example.remote_datasource.di.ServiceModule
++import com.example.usecase.di.UseCaseModule
+ import org.koin.android.ext.koin.androidContext
+ import org.koin.android.ext.koin.androidLogger
+ import org.koin.core.context.startKoin
++import org.koin.core.logger.Level
+ 
+ class MemeApp : Application() {
+     override fun onCreate() {
+         super.onCreate()
+         startKoin{
+-            androidLogger()
++            androidLogger(Level.ERROR)
+             androidContext(this@MemeApp)
+-            modules(ServiceModule.serviceModule)
++            modules(UseCaseModule.useCaseModule, ServiceModule.serviceModule)
+         }
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/memeapp/ui/profile/ProfileFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.memeapp.ui.profile\n\nimport android.content.Context\nimport android.os.Bundle\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport android.view.inputmethod.InputMethodManager\nimport androidx.core.view.isVisible\nimport androidx.fragment.app.Fragment\nimport androidx.fragment.app.activityViewModels\nimport androidx.fragment.app.viewModels\nimport com.example.memeapp.R\nimport com.example.memeapp.ui.MainViewModel\nimport com.squareup.picasso.Picasso\nimport kotlinx.android.synthetic.main.activity_main.*\nimport kotlinx.android.synthetic.main.fragment_profile.*\nimport org.koin.core.component.KoinApiExtension\n\n@KoinApiExtension\nclass ProfileFragment : Fragment() {\n\n    private val viewModel: MainViewModel by activityViewModels()\n    private val profileViewModel: ProfileViewModel by viewModels()\n\n    override fun onCreateView(\n            inflater: LayoutInflater,\n            container: ViewGroup?,\n            savedInstanceState: Bundle?\n    ): View? {\n        return inflater.inflate(R.layout.fragment_profile, container, false)\n    }\n\n    private fun observeViewModel(){\n        viewModel.profileLoading.observe(viewLifecycleOwner, {\n            loading_view.isVisible = it\n        })\n\n        viewModel.profileLiveData.observe(viewLifecycleOwner, {\n            Picasso.get().load(it.pic).into(profile_pic)\n            profile_name.text = it.name\n            edit_name.setText(it.name)\n            profileViewModel.profile = it\n        })\n\n        viewModel.feedLiveData.observe(viewLifecycleOwner, {list ->\n            val n = list.count { it.liked }\n            profile_liked_number.text = context?.resources?.getString(R.string.profile_liked)?.let { String.format(it, n) }\n        })\n    }\n\n    private fun observeProfileViewModel(){\n        profileViewModel.loading.observe({ lifecycle }, {\n            loading_view.isVisible = it\n        })\n\n        profileViewModel.editingMutableLiveData.observe({ lifecycle }, {\n            profile_name.isVisible = !it\n            name_edition.isVisible = it\n        })\n\n        profileViewModel.updatedProfileLiveData.observe({ lifecycle }, {\n            viewModel.updateProfile(it)\n        })\n    }\n\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        super.onViewCreated(view, savedInstanceState)\n\n        observeViewModel()\n        observeProfileViewModel()\n\n        profile_name.setOnClickListener {\n            profileViewModel.editingMutableLiveData.postValue(true)\n        }\n\n        save_name_btn.setOnClickListener {\n            profileViewModel.updateName(edit_name.text.toString())\n            profileViewModel.editingMutableLiveData.postValue(false)\n            hideKeyboard(it)\n        }\n\n        cancel_name_btn.setOnClickListener {\n            profileViewModel.editingMutableLiveData.postValue(false)\n            hideKeyboard(it)\n        }\n\n        swiperefresh.setOnRefreshListener {\n            swiperefresh.isRefreshing = false\n            viewModel.getProfile()\n        }\n    }\n\n    private fun hideKeyboard(view: View){\n        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager\n        imm?.hideSoftInputFromWindow(view.windowToken, 0)\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/memeapp/ui/profile/ProfileFragment.kt b/app/src/main/java/com/example/memeapp/ui/profile/ProfileFragment.kt
+--- a/app/src/main/java/com/example/memeapp/ui/profile/ProfileFragment.kt	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/app/src/main/java/com/example/memeapp/ui/profile/ProfileFragment.kt	(date 1645085301164)
+@@ -11,10 +11,9 @@
+ import androidx.fragment.app.activityViewModels
+ import androidx.fragment.app.viewModels
+ import com.example.memeapp.R
++import com.example.memeapp.databinding.FragmentProfileBinding
+ import com.example.memeapp.ui.MainViewModel
+ import com.squareup.picasso.Picasso
+-import kotlinx.android.synthetic.main.activity_main.*
+-import kotlinx.android.synthetic.main.fragment_profile.*
+ import org.koin.core.component.KoinApiExtension
+ 
+ @KoinApiExtension
+@@ -23,40 +22,44 @@
+     private val viewModel: MainViewModel by activityViewModels()
+     private val profileViewModel: ProfileViewModel by viewModels()
+ 
++    private var binding: FragmentProfileBinding? = null
++
+     override fun onCreateView(
+             inflater: LayoutInflater,
+             container: ViewGroup?,
+             savedInstanceState: Bundle?
+     ): View? {
+-        return inflater.inflate(R.layout.fragment_profile, container, false)
++        binding = FragmentProfileBinding.inflate(inflater, container, false)
++        return binding?.root
+     }
+ 
+     private fun observeViewModel(){
+-        viewModel.profileLoading.observe(viewLifecycleOwner, {
+-            loading_view.isVisible = it
+-        })
++        viewModel.profileLoading.observe(viewLifecycleOwner) {
++            binding?.loadingView?.isVisible = it
++        }
+ 
+-        viewModel.profileLiveData.observe(viewLifecycleOwner, {
+-            Picasso.get().load(it.pic).into(profile_pic)
+-            profile_name.text = it.name
+-            edit_name.setText(it.name)
++        viewModel.profileLiveData.observe(viewLifecycleOwner) {
++            Picasso.get().load(it.pic).into(binding?.profilePic)
++            binding?.profileName?.text = it.name
++            binding?.editName?.setText(it.name)
+             profileViewModel.profile = it
+-        })
++        }
+ 
+-        viewModel.feedLiveData.observe(viewLifecycleOwner, {list ->
++        viewModel.feedLiveData.observe(viewLifecycleOwner) { list ->
+             val n = list.count { it.liked }
+-            profile_liked_number.text = context?.resources?.getString(R.string.profile_liked)?.let { String.format(it, n) }
+-        })
++            binding?.profileLikedNumber?.text =
++                context?.resources?.getString(R.string.profile_liked)?.let { String.format(it, n) }
++        }
+     }
+ 
+     private fun observeProfileViewModel(){
+         profileViewModel.loading.observe({ lifecycle }, {
+-            loading_view.isVisible = it
++            binding?.loadingView?.isVisible = it
+         })
+ 
+         profileViewModel.editingMutableLiveData.observe({ lifecycle }, {
+-            profile_name.isVisible = !it
+-            name_edition.isVisible = it
++            binding?.profileName?.isVisible = !it
++            binding?.nameEdition?.isVisible = it
+         })
+ 
+         profileViewModel.updatedProfileLiveData.observe({ lifecycle }, {
+@@ -70,23 +73,23 @@
+         observeViewModel()
+         observeProfileViewModel()
+ 
+-        profile_name.setOnClickListener {
++        binding?.profileName?.setOnClickListener {
+             profileViewModel.editingMutableLiveData.postValue(true)
+         }
+ 
+-        save_name_btn.setOnClickListener {
+-            profileViewModel.updateName(edit_name.text.toString())
++        binding?.saveNameBtn?.setOnClickListener {
++            profileViewModel.updateName(binding?.editName?.text.toString())
+             profileViewModel.editingMutableLiveData.postValue(false)
+             hideKeyboard(it)
+         }
+ 
+-        cancel_name_btn.setOnClickListener {
++        binding?.cancelNameBtn?.setOnClickListener {
+             profileViewModel.editingMutableLiveData.postValue(false)
+             hideKeyboard(it)
+         }
+ 
+-        swiperefresh.setOnRefreshListener {
+-            swiperefresh.isRefreshing = false
++        binding?.swiperefresh?.setOnRefreshListener {
++            binding?.swiperefresh?.isRefreshing = false
+             viewModel.getProfile()
+         }
+     }
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"PLATFORM\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"gradleJvm\" value=\"1.8\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n            <option value=\"$PROJECT_DIR$/remote_datasource\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n        <option name=\"useQualifiedModuleNames\" value=\"true\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/.idea/gradle.xml	(date 1645087081242)
+@@ -4,7 +4,7 @@
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+-        <option name="testRunner" value="PLATFORM" />
++        <option name="testRunner" value="GRADLE" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+         <option name="gradleJvm" value="1.8" />
+@@ -12,11 +12,11 @@
+           <set>
+             <option value="$PROJECT_DIR$" />
+             <option value="$PROJECT_DIR$/app" />
+-            <option value="$PROJECT_DIR$/remote_datasource" />
++            <option value="$PROJECT_DIR$/remote" />
++            <option value="$PROJECT_DIR$/usecase" />
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
+-        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\nbuildscript {\n    ext.kotlin_version = \"1.4.10\"\n    repositories {\n        google()\n        jcenter()\n    }\n    dependencies {\n        classpath \"com.android.tools.build:gradle:4.0.2\"\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version\"\n\n        // NOTE: Do not place your application dependencies here; they belong\n        // in the individual module build.gradle files\n    }\n}\n\nallprojects {\n    repositories {\n        google()\n        jcenter()\n    }\n}\n\ntask clean(type: Delete) {\n    delete rootProject.buildDir\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/build.gradle	(date 1648061323773)
+@@ -1,6 +1,6 @@
+ // Top-level build file where you can add configuration options common to all sub-projects/modules.
+ buildscript {
+-    ext.kotlin_version = "1.4.10"
++    ext.kotlin_version = "1.6.10"
+     repositories {
+         google()
+         jcenter()
+@@ -17,6 +17,7 @@
+ allprojects {
+     repositories {
+         google()
++        mavenCentral()
+         jcenter()
+     }
+ }
+Index: usecase/src/androidTest/java/com/example/usecase/ExampleInstrumentedTest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/usecase/src/androidTest/java/com/example/usecase/ExampleInstrumentedTest.kt b/usecase/src/androidTest/java/com/example/usecase/ExampleInstrumentedTest.kt
+new file mode 100644
+--- /dev/null	(date 1645087058083)
++++ b/usecase/src/androidTest/java/com/example/usecase/ExampleInstrumentedTest.kt	(date 1645087058083)
+@@ -0,0 +1,24 @@
++package com.example.usecase
++
++import androidx.test.platform.app.InstrumentationRegistry
++import androidx.test.ext.junit.runners.AndroidJUnit4
++
++import org.junit.Test
++import org.junit.runner.RunWith
++
++import org.junit.Assert.*
++
++/**
++ * Instrumented test, which will execute on an Android device.
++ *
++ * See [testing documentation](http://d.android.com/tools/testing).
++ */
++@RunWith(AndroidJUnit4::class)
++class ExampleInstrumentedTest {
++    @Test
++    fun useAppContext() {
++        // Context of the app under test.
++        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
++        assertEquals("com.example.usecase.test", appContext.packageName)
++    }
++}
+\ No newline at end of file
+Index: usecase/proguard-rules.pro
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/usecase/proguard-rules.pro b/usecase/proguard-rules.pro
+new file mode 100644
+--- /dev/null	(date 1645087058010)
++++ b/usecase/proguard-rules.pro	(date 1645087058010)
+@@ -0,0 +1,21 @@
++# Add project specific ProGuard rules here.
++# You can control the set of applied configuration files using the
++# proguardFiles setting in build.gradle.
++#
++# For more details, see
++#   http://developer.android.com/guide/developing/tools/proguard.html
++
++# If your project uses WebView with JS, uncomment the following
++# and specify the fully qualified class name to the JavaScript interface
++# class:
++#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
++#   public *;
++#}
++
++# Uncomment this to preserve the line number information for
++# debugging stack traces.
++#-keepattributes SourceFile,LineNumberTable
++
++# If you keep the line number information, uncomment this to
++# hide the original source file name.
++#-renamesourcefileattribute SourceFile
+\ No newline at end of file
+Index: usecase/src/test/java/com/example/usecase/ExampleUnitTest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/usecase/src/test/java/com/example/usecase/ExampleUnitTest.kt b/usecase/src/test/java/com/example/usecase/ExampleUnitTest.kt
+new file mode 100644
+--- /dev/null	(date 1645087058090)
++++ b/usecase/src/test/java/com/example/usecase/ExampleUnitTest.kt	(date 1645087058090)
+@@ -0,0 +1,17 @@
++package com.example.usecase
++
++import org.junit.Test
++
++import org.junit.Assert.*
++
++/**
++ * Example local unit test, which will execute on the development machine (host).
++ *
++ * See [testing documentation](http://d.android.com/tools/testing).
++ */
++class ExampleUnitTest {
++    @Test
++    fun addition_isCorrect() {
++        assertEquals(4, 2 + 2)
++    }
++}
+\ No newline at end of file
+Index: remote_datasource/src/main/java/com/example/remote_datasource/di/ServiceModule.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/remote_datasource/src/main/java/com/example/remote_datasource/di/ServiceModule.kt b/remote/src/main/java/com/example/remote_datasource/di/ServiceModule.kt
+rename from remote_datasource/src/main/java/com/example/remote_datasource/di/ServiceModule.kt
+rename to remote/src/main/java/com/example/remote_datasource/di/ServiceModule.kt
+--- a/remote_datasource/src/main/java/com/example/remote_datasource/di/ServiceModule.kt	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/remote/src/main/java/com/example/remote_datasource/di/ServiceModule.kt	(date 1645087618982)
+@@ -1,13 +1,8 @@
+ package com.example.remote_datasource.di
+ 
+ import com.example.remote_datasource.RemoteRepository
+-import com.example.remote_datasource.feed.FeedUseCase
+-import com.example.remote_datasource.feed.MemeLikedUseCase
+-import com.example.remote_datasource.profile.ChangeNameUseCase
+-import com.example.remote_datasource.profile.ProfileUseCase
+ import okhttp3.Interceptor
+ import okhttp3.OkHttpClient
+-import okhttp3.Request
+ import okhttp3.logging.HttpLoggingInterceptor
+ import org.koin.dsl.module
+ import retrofit2.Retrofit
+@@ -45,13 +40,5 @@
+         }
+ 
+         single { RemoteRepository(get()) }
+-
+-        factory { FeedUseCase(get()) }
+-
+-        factory { ProfileUseCase(get()) }
+-
+-        factory { MemeLikedUseCase(get()) }
+-
+-        factory { ChangeNameUseCase(get()) }
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/memeapp/ui/MainViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.memeapp.ui\n\nimport androidx.lifecycle.LiveData\nimport androidx.lifecycle.MutableLiveData\nimport androidx.lifecycle.ViewModel\nimport com.example.remote_datasource.feed.Feed\nimport com.example.remote_datasource.feed.FeedItem\nimport com.example.remote_datasource.feed.FeedUseCase\nimport com.example.remote_datasource.feed.MemeLikedUseCase\nimport com.example.remote_datasource.profile.Profile\nimport com.example.remote_datasource.profile.ProfileUseCase\nimport io.reactivex.Observable\nimport io.reactivex.disposables.CompositeDisposable\nimport org.koin.core.component.KoinApiExtension\nimport org.koin.core.component.KoinComponent\nimport org.koin.core.component.inject\n\n@KoinApiExtension\nclass MainViewModel: ViewModel(), KoinComponent {\n    private val profileUseCase: ProfileUseCase by inject()\n    private val profileMutableLiveData = MutableLiveData<Profile>()\n    val profileLiveData: LiveData<Profile> = profileMutableLiveData\n    val feedLoading = MutableLiveData(false)\n    val profileLoading = MutableLiveData(false)\n    private val compositeDisposable = CompositeDisposable()\n    private val feedUseCase: FeedUseCase by inject()\n    private val memeLikedUseCase: MemeLikedUseCase by inject()\n    private val feedMutableLiveData = MutableLiveData<List<FeedItem>>()\n    val feedLiveData: LiveData<List<FeedItem>> = feedMutableLiveData\n\n    private fun handleLoadingFeed(observable: Observable<Feed?>?){\n        observable\n            ?.doOnSubscribe { feedLoading.postValue(true) }\n            ?.doOnTerminate { feedLoading.postValue(false) }\n            ?.subscribe({feed ->\n                feed?.feedList?.let { list ->\n                    feedMutableLiveData.postValue(list.shuffled())\n                }\n            }, { throwable ->\n                throwable.printStackTrace()\n            })?.run { compositeDisposable.add(this) }\n    }\n\n    fun likeMeme(item: FeedItem){\n        val updatedList = feedMutableLiveData.value?.toMutableList()\n        updatedList?.set(updatedList.indexOf(item), item.copy( liked = !item.liked ))\n        updatedList?.let {\n            handleLoadingFeed(memeLikedUseCase(Feed(it)))\n\n        }\n    }\n\n    fun updateProfile(profile: Profile){\n        profileMutableLiveData.postValue(profile)\n    }\n\n    fun getFeed(){\n        handleLoadingFeed(feedUseCase())\n    }\n\n    fun getProfile(){\n        profileUseCase()\n            ?.doOnSubscribe { profileLoading.postValue(true) }\n            ?.doOnTerminate { profileLoading.postValue(false) }\n            ?.subscribe({\n                profileMutableLiveData.postValue(it)\n            }, {\n                it.printStackTrace()\n            })?.run { compositeDisposable.add(this) }\n    }\n\n    override fun onCleared() {\n        compositeDisposable.clear()\n        super.onCleared()\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/memeapp/ui/MainViewModel.kt b/app/src/main/java/com/example/memeapp/ui/MainViewModel.kt
+--- a/app/src/main/java/com/example/memeapp/ui/MainViewModel.kt	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/app/src/main/java/com/example/memeapp/ui/MainViewModel.kt	(date 1648038099744)
+@@ -5,10 +5,10 @@
+ import androidx.lifecycle.ViewModel
+ import com.example.remote_datasource.feed.Feed
+ import com.example.remote_datasource.feed.FeedItem
+-import com.example.remote_datasource.feed.FeedUseCase
+-import com.example.remote_datasource.feed.MemeLikedUseCase
+ import com.example.remote_datasource.profile.Profile
+-import com.example.remote_datasource.profile.ProfileUseCase
++import com.example.usecase.feed.FeedUseCase
++import com.example.usecase.feed.MemeLikedUseCase
++import com.example.usecase.profile.ProfileUseCase
+ import io.reactivex.Observable
+ import io.reactivex.disposables.CompositeDisposable
+ import org.koin.core.component.KoinApiExtension
+Index: app/src/main/java/com/example/memeapp/ui/feed/FeedFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.memeapp.ui.feed\n\nimport android.app.Activity.RESULT_OK\nimport android.content.Intent\nimport android.os.Bundle\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport androidx.core.view.isVisible\nimport androidx.fragment.app.Fragment\nimport androidx.fragment.app.activityViewModels\nimport androidx.recyclerview.widget.LinearLayoutManager\nimport com.example.memeapp.R\nimport com.example.memeapp.ui.DetailActivity\nimport com.example.memeapp.ui.DetailActivity.Companion.DETAIL_LIKED\nimport com.example.memeapp.ui.MainViewModel\nimport com.example.remote_datasource.feed.FeedItem\nimport kotlinx.android.synthetic.main.activity_main.*\nimport kotlinx.android.synthetic.main.fragment_feed.*\nimport kotlinx.android.synthetic.main.fragment_feed.swiperefresh\nimport org.koin.core.component.KoinApiExtension\n\n@KoinApiExtension\nclass FeedFragment : Fragment() {\n\n    private val viewModel: MainViewModel by activityViewModels()\n    private val adapter: FeedAdapter by lazy { FeedAdapter(activity) }\n\n    override fun onCreateView(\n            inflater: LayoutInflater,\n            container: ViewGroup?,\n            savedInstanceState: Bundle?\n    ): View? {\n        return inflater.inflate(R.layout.fragment_feed, container, false)\n    }\n\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        super.onViewCreated(view, savedInstanceState)\n        rv_main.layoutManager = LinearLayoutManager(context)\n        rv_main.adapter = adapter\n\n        viewModel.feedLoading.observe(viewLifecycleOwner, {\n            loading_view.isVisible = it\n        })\n\n        viewModel.feedLiveData.observe(viewLifecycleOwner, {\n            it?.toMutableList()?.let {list ->\n                adapter.feedList = list\n            }\n            adapter.notifyDataSetChanged()\n        })\n        swiperefresh.setOnRefreshListener {\n            swiperefresh.isRefreshing = false\n            viewModel.getFeed()\n        }\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/memeapp/ui/feed/FeedFragment.kt b/app/src/main/java/com/example/memeapp/ui/feed/FeedFragment.kt
+--- a/app/src/main/java/com/example/memeapp/ui/feed/FeedFragment.kt	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/app/src/main/java/com/example/memeapp/ui/feed/FeedFragment.kt	(date 1645085301169)
+@@ -1,7 +1,5 @@
+ package com.example.memeapp.ui.feed
+ 
+-import android.app.Activity.RESULT_OK
+-import android.content.Intent
+ import android.os.Bundle
+ import android.view.LayoutInflater
+ import android.view.View
+@@ -10,14 +8,8 @@
+ import androidx.fragment.app.Fragment
+ import androidx.fragment.app.activityViewModels
+ import androidx.recyclerview.widget.LinearLayoutManager
+-import com.example.memeapp.R
+-import com.example.memeapp.ui.DetailActivity
+-import com.example.memeapp.ui.DetailActivity.Companion.DETAIL_LIKED
++import com.example.memeapp.databinding.FragmentFeedBinding
+ import com.example.memeapp.ui.MainViewModel
+-import com.example.remote_datasource.feed.FeedItem
+-import kotlinx.android.synthetic.main.activity_main.*
+-import kotlinx.android.synthetic.main.fragment_feed.*
+-import kotlinx.android.synthetic.main.fragment_feed.swiperefresh
+ import org.koin.core.component.KoinApiExtension
+ 
+ @KoinApiExtension
+@@ -26,31 +18,34 @@
+     private val viewModel: MainViewModel by activityViewModels()
+     private val adapter: FeedAdapter by lazy { FeedAdapter(activity) }
+ 
++    private var binding: FragmentFeedBinding? = null
++
+     override fun onCreateView(
+             inflater: LayoutInflater,
+             container: ViewGroup?,
+             savedInstanceState: Bundle?
+     ): View? {
+-        return inflater.inflate(R.layout.fragment_feed, container, false)
++        binding = FragmentFeedBinding.inflate(inflater, container, false)
++        return binding?.root
+     }
+ 
+     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+         super.onViewCreated(view, savedInstanceState)
+-        rv_main.layoutManager = LinearLayoutManager(context)
+-        rv_main.adapter = adapter
++        binding?.rvMain?.layoutManager = LinearLayoutManager(context)
++        binding?.rvMain?.adapter = adapter
+ 
+-        viewModel.feedLoading.observe(viewLifecycleOwner, {
+-            loading_view.isVisible = it
+-        })
++        viewModel.feedLoading.observe(viewLifecycleOwner) {
++            binding?.loadingView?.isVisible = it
++        }
+ 
+-        viewModel.feedLiveData.observe(viewLifecycleOwner, {
+-            it?.toMutableList()?.let {list ->
++        viewModel.feedLiveData.observe(viewLifecycleOwner) {
++            binding?.swiperefresh?.isRefreshing = false
++            it?.toMutableList()?.let { list ->
+                 adapter.feedList = list
+             }
+             adapter.notifyDataSetChanged()
+-        })
+-        swiperefresh.setOnRefreshListener {
+-            swiperefresh.isRefreshing = false
++        }
++        binding?.swiperefresh?.setOnRefreshListener {
+             viewModel.getFeed()
+         }
+     }
+Index: settings.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>include ':remote_datasource'\ninclude ':app'\nrootProject.name = \"MemeApp\"
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/settings.gradle b/settings.gradle
+--- a/settings.gradle	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/settings.gradle	(date 1648037990401)
+@@ -1,3 +1,4 @@
+-include ':remote_datasource'
++include ':remote'
++include ':usecase'
+ include ':app'
+ rootProject.name = "MemeApp"
+\ No newline at end of file
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'\napply plugin: 'kotlin-android-extensions'\n\nandroid {\n    compileSdkVersion 29\n    buildToolsVersion \"30.0.0\"\n\n    defaultConfig {\n        applicationId \"com.example.memeapp\"\n        minSdkVersion 23\n        targetSdkVersion 29\n        versionCode 1\n        versionName \"1.0\"\n\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled true\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\n        }\n        debug {\n            minifyEnabled false\n            proguardFiles 'proguard-rules.pro'\n        }\n        mock {\n            debuggable = true\n            signingConfig signingConfigs.debug\n        }\n    }\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n    kotlinOptions {\n        jvmTarget = '1.8'\n    }\n}\n\ndependencies {\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\n    implementation \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n    implementation 'androidx.core:core-ktx:1.3.2'\n    implementation 'androidx.appcompat:appcompat:1.2.0'\n    implementation 'com.google.android.material:material:1.2.1'\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'\n    implementation 'androidx.navigation:navigation-fragment:2.3.1'\n    implementation 'androidx.navigation:navigation-ui:2.3.1'\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\n    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'\n    implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'\n    testImplementation 'junit:junit:4.12'\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\n    implementation 'androidx.fragment:fragment-ktx:1.2.5'\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\n    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha06'\n    implementation 'com.squareup.picasso:picasso:2.71828'\n    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'\n    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'\n\n    //Koin\n    implementation 'org.koin:koin-android:2.2.1'\n\n    //remote\n    api project(':remote_datasource')\n\n    //RxJava\n    implementation 'io.reactivex.rxjava2:rxjava:2.2.12'\n    //RxAndroid\n    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'\n\n    // MvRx\n//    implementation 'com.airbnb.android:mvrx:2.0.0-beta2'\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/app/build.gradle	(date 1648061810743)
+@@ -3,13 +3,13 @@
+ apply plugin: 'kotlin-android-extensions'
+ 
+ android {
+-    compileSdkVersion 29
+-    buildToolsVersion "30.0.0"
++    compileSdkVersion 31
++    buildToolsVersion "30.0.3"
+ 
+     defaultConfig {
+         applicationId "com.example.memeapp"
+         minSdkVersion 23
+-        targetSdkVersion 29
++        targetSdkVersion 31
+         versionCode 1
+         versionName "1.0"
+ 
+@@ -37,35 +37,38 @@
+     kotlinOptions {
+         jvmTarget = '1.8'
+     }
++    viewBinding {
++        enabled = true
++    }
+ }
+ 
+ dependencies {
+     implementation fileTree(dir: "libs", include: ["*.jar"])
+     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+-    implementation 'androidx.core:core-ktx:1.3.2'
+-    implementation 'androidx.appcompat:appcompat:1.2.0'
+-    implementation 'com.google.android.material:material:1.2.1'
+-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+-    implementation 'androidx.navigation:navigation-fragment:2.3.1'
+-    implementation 'androidx.navigation:navigation-ui:2.3.1'
++    implementation 'androidx.core:core-ktx:1.7.0'
++    implementation 'androidx.appcompat:appcompat:1.4.1'
++    implementation 'com.google.android.material:material:1.5.0'
++    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
++    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
++    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
+-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
+-    testImplementation 'junit:junit:4.12'
+-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+-    implementation 'androidx.fragment:fragment-ktx:1.2.5'
++    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
++    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
++    implementation project(path: ':usecase')
++    testImplementation 'junit:junit:4.13.2'
++    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
++    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+-    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha06'
++    implementation 'androidx.recyclerview:recyclerview:1.3.0-alpha01'
+     implementation 'com.squareup.picasso:picasso:2.71828'
+     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+ 
+     //Koin
+     implementation 'org.koin:koin-android:2.2.1'
++    api project(':usecase')
+ 
+     //remote
+-    api project(':remote_datasource')
+ 
+     //RxJava
+     implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
+Index: app/src/main/res/layout/feed_item.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"wrap_content\"\n    android:layout_marginTop=\"16dp\"\n    android:clickable=\"true\"\n    android:focusable=\"true\"\n    android:foreground=\"?android:attr/selectableItemBackground\"\n    android:background=\"#E6E6E6\"\n    android:orientation=\"vertical\">\n\n    <LinearLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:orientation=\"vertical\"\n        android:padding=\"16dp\">\n\n        <ImageView\n            android:id=\"@+id/meme\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:contentDescription=\"@string/description_meme\" />\n\n        <TextView\n            android:id=\"@+id/meme_title\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:layout_marginTop=\"8dp\"\n            android:textColor=\"#1E1E1E\"\n            android:textSize=\"20sp\" />\n\n        <LinearLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:layout_marginTop=\"8dp\">\n\n            <TextView\n                android:id=\"@+id/meme_likes\"\n                android:layout_width=\"0dp\"\n                android:layout_height=\"wrap_content\"\n                android:textColor=\"#1E1E1E\"\n                android:layout_weight=\"1\"\n                android:textSize=\"17sp\" />\n\n            <TextView\n                android:id=\"@+id/meme_liked\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:textColor=\"@color/colorPrimaryDark\"\n                android:text=\"@string/detail_liked\"\n                android:textSize=\"17sp\" />\n\n        </LinearLayout>\n\n    </LinearLayout>\n\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/feed_item.xml b/app/src/main/res/layout/feed_item.xml
+--- a/app/src/main/res/layout/feed_item.xml	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/app/src/main/res/layout/feed_item.xml	(date 1645050092578)
+@@ -3,55 +3,49 @@
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="16dp"
++    android:background="#E6E6E6"
+     android:clickable="true"
+     android:focusable="true"
+     android:foreground="?android:attr/selectableItemBackground"
+-    android:background="#E6E6E6"
+-    android:orientation="vertical">
+-
+-    <LinearLayout
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:orientation="vertical"
+-        android:padding="16dp">
++    android:orientation="vertical"
++    android:padding="16dp"
++    android:id="@+id/item_root">
+ 
+-        <ImageView
+-            android:id="@+id/meme"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:contentDescription="@string/description_meme" />
++    <ImageView
++        android:id="@+id/meme"
++        android:layout_width="match_parent"
++        android:layout_height="300dp"
++        android:contentDescription="@string/description_meme" />
+ 
+-        <TextView
+-            android:id="@+id/meme_title"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:layout_marginTop="8dp"
+-            android:textColor="#1E1E1E"
+-            android:textSize="20sp" />
++    <TextView
++        android:id="@+id/meme_title"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="8dp"
++        android:textColor="#1E1E1E"
++        android:textSize="20sp" />
+ 
+-        <LinearLayout
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:layout_marginTop="8dp">
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="8dp">
+ 
+-            <TextView
+-                android:id="@+id/meme_likes"
+-                android:layout_width="0dp"
+-                android:layout_height="wrap_content"
+-                android:textColor="#1E1E1E"
+-                android:layout_weight="1"
+-                android:textSize="17sp" />
++        <TextView
++            android:id="@+id/meme_likes"
++            android:layout_width="0dp"
++            android:layout_height="wrap_content"
++            android:layout_weight="1"
++            android:textColor="#1E1E1E"
++            android:textSize="17sp" />
+ 
+-            <TextView
+-                android:id="@+id/meme_liked"
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:textColor="@color/colorPrimaryDark"
+-                android:text="@string/detail_liked"
+-                android:textSize="17sp" />
++        <TextView
++            android:id="@+id/meme_liked"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="@string/detail_liked"
++            android:textColor="@color/colorPrimaryDark"
++            android:textSize="17sp" />
+ 
+-        </LinearLayout>
+-
+     </LinearLayout>
+ 
+ </LinearLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/memeapp/ui/profile/ProfileViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.memeapp.ui.profile\n\nimport androidx.lifecycle.LiveData\nimport androidx.lifecycle.MutableLiveData\nimport androidx.lifecycle.ViewModel\nimport com.example.remote_datasource.feed.FeedItem\nimport com.example.remote_datasource.feed.FeedUseCase\nimport com.example.remote_datasource.profile.ChangeNameUseCase\nimport com.example.remote_datasource.profile.Profile\nimport io.reactivex.disposables.CompositeDisposable\nimport org.koin.core.component.KoinApiExtension\nimport org.koin.core.component.KoinComponent\nimport org.koin.core.component.inject\n\n@KoinApiExtension\nclass ProfileViewModel: ViewModel(), KoinComponent {\n    val loading = MutableLiveData(false)\n    val editingMutableLiveData = MutableLiveData(false)\n\n    var profile: Profile? = null\n\n    private val compositeDisposable = CompositeDisposable()\n    private val changeNameUseCase: ChangeNameUseCase by inject()\n    private val updatedProfileMutableLiveData = MutableLiveData<Profile>()\n    val updatedProfileLiveData: LiveData<Profile> = updatedProfileMutableLiveData\n\n    fun updateName(name: String){\n        val changedProfile = profile?.copy(name = name) ?: return\n        changeNameUseCase(changedProfile)\n            ?.doOnSubscribe { loading.postValue(true) }\n            ?.doOnTerminate { loading.postValue(false) }\n            ?.subscribe({\n                updatedProfileMutableLiveData.postValue(it)\n            }, {\n                it.printStackTrace()\n            })?.run { compositeDisposable.add(this) }\n    }\n\n    override fun onCleared() {\n        compositeDisposable.clear()\n        super.onCleared()\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/memeapp/ui/profile/ProfileViewModel.kt b/app/src/main/java/com/example/memeapp/ui/profile/ProfileViewModel.kt
+--- a/app/src/main/java/com/example/memeapp/ui/profile/ProfileViewModel.kt	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/app/src/main/java/com/example/memeapp/ui/profile/ProfileViewModel.kt	(date 1648038099739)
+@@ -3,10 +3,8 @@
+ import androidx.lifecycle.LiveData
+ import androidx.lifecycle.MutableLiveData
+ import androidx.lifecycle.ViewModel
+-import com.example.remote_datasource.feed.FeedItem
+-import com.example.remote_datasource.feed.FeedUseCase
+-import com.example.remote_datasource.profile.ChangeNameUseCase
+ import com.example.remote_datasource.profile.Profile
++import com.example.usecase.profile.ChangeNameUseCase
+ import io.reactivex.disposables.CompositeDisposable
+ import org.koin.core.component.KoinApiExtension
+ import org.koin.core.component.KoinComponent
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"RemoteRepositoriesConfiguration\">\n    <remote-repository>\n      <option name=\"id\" value=\"central\" />\n      <option name=\"name\" value=\"Maven Central repository\" />\n      <option name=\"url\" value=\"https://repo1.maven.org/maven2\" />\n    </remote-repository>\n    <remote-repository>\n      <option name=\"id\" value=\"jboss.community\" />\n      <option name=\"name\" value=\"JBoss Community repository\" />\n      <option name=\"url\" value=\"https://repository.jboss.org/nexus/content/repositories/public/\" />\n    </remote-repository>\n    <remote-repository>\n      <option name=\"id\" value=\"BintrayJCenter\" />\n      <option name=\"name\" value=\"BintrayJCenter\" />\n      <option name=\"url\" value=\"https://jcenter.bintray.com/\" />\n    </remote-repository>\n    <remote-repository>\n      <option name=\"id\" value=\"Google\" />\n      <option name=\"name\" value=\"Google\" />\n      <option name=\"url\" value=\"https://dl.google.com/dl/android/maven2/\" />\n    </remote-repository>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jarRepositories.xml b/.idea/jarRepositories.xml
+--- a/.idea/jarRepositories.xml	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/.idea/jarRepositories.xml	(date 1645086135929)
+@@ -21,5 +21,10 @@
+       <option name="name" value="Google" />
+       <option name="url" value="https://dl.google.com/dl/android/maven2/" />
+     </remote-repository>
++    <remote-repository>
++      <option name="id" value="MavenRepo" />
++      <option name="name" value="MavenRepo" />
++      <option name="url" value="https://repo.maven.apache.org/maven2/" />
++    </remote-repository>
+   </component>
+ </project>
+\ No newline at end of file
+Index: remote_datasource/src/main/java/com/example/remote_datasource/profile/ProfileUseCase.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/remote_datasource/src/main/java/com/example/remote_datasource/profile/ProfileUseCase.kt b/usecase/src/main/java/com/example/usecase/profile/ProfileUseCase.kt
+rename from remote_datasource/src/main/java/com/example/remote_datasource/profile/ProfileUseCase.kt
+rename to usecase/src/main/java/com/example/usecase/profile/ProfileUseCase.kt
+--- a/remote_datasource/src/main/java/com/example/remote_datasource/profile/ProfileUseCase.kt	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/usecase/src/main/java/com/example/usecase/profile/ProfileUseCase.kt	(date 1645087983338)
+@@ -1,6 +1,7 @@
+-package com.example.remote_datasource.profile
++package com.example.usecase.profile
+ 
+ import com.example.remote_datasource.RemoteRepository
++import com.example.remote_datasource.profile.Profile
+ import io.reactivex.Observable
+ import io.reactivex.android.schedulers.AndroidSchedulers
+ import io.reactivex.schedulers.Schedulers
+Index: remote_datasource/src/main/java/com/example/remote_datasource/profile/ChangeNameUseCase.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/remote_datasource/src/main/java/com/example/remote_datasource/profile/ChangeNameUseCase.kt b/usecase/src/main/java/com/example/usecase/profile/ChangeNameUseCase.kt
+rename from remote_datasource/src/main/java/com/example/remote_datasource/profile/ChangeNameUseCase.kt
+rename to usecase/src/main/java/com/example/usecase/profile/ChangeNameUseCase.kt
+--- a/remote_datasource/src/main/java/com/example/remote_datasource/profile/ChangeNameUseCase.kt	(revision 23a0a0f06f98ada1bab8690eac1992f34f5e5de6)
++++ b/usecase/src/main/java/com/example/usecase/profile/ChangeNameUseCase.kt	(date 1645087983352)
+@@ -1,6 +1,7 @@
+-package com.example.remote_datasource.profile
++package com.example.usecase.profile
+ 
+ import com.example.remote_datasource.RemoteRepository
++import com.example.remote_datasource.profile.Profile
+ import io.reactivex.Observable
+ import io.reactivex.android.schedulers.AndroidSchedulers
+ import io.reactivex.schedulers.Schedulers
+Index: usecase/src/main/java/com/example/usecase/di/UseCaseModule.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/usecase/src/main/java/com/example/usecase/di/UseCaseModule.kt b/usecase/src/main/java/com/example/usecase/di/UseCaseModule.kt
+new file mode 100644
+--- /dev/null	(date 1645087983341)
++++ b/usecase/src/main/java/com/example/usecase/di/UseCaseModule.kt	(date 1645087983341)
+@@ -0,0 +1,19 @@
++package com.example.usecase.di
++
++import com.example.usecase.feed.FeedUseCase
++import com.example.usecase.feed.MemeLikedUseCase
++import com.example.usecase.profile.ChangeNameUseCase
++import com.example.usecase.profile.ProfileUseCase
++import org.koin.dsl.module
++
++object UseCaseModule {
++    val useCaseModule = module {
++        factory { FeedUseCase(get()) }
++
++        factory { ProfileUseCase(get()) }
++
++        factory { MemeLikedUseCase(get()) }
++
++        factory { ChangeNameUseCase(get()) }
++    }
++}
+\ No newline at end of file
+diff --git a/remote_datasource/src/main/java/com/example/remote_datasource/RemoteService.kt b/remote/src/main/java/com/example/remote_datasource/RemoteService.kt
+rename from remote_datasource/src/main/java/com/example/remote_datasource/RemoteService.kt
+rename to remote/src/main/java/com/example/remote_datasource/RemoteService.kt
+diff --git a/remote_datasource/src/main/AndroidManifest.xml b/remote/src/main/AndroidManifest.xml
+rename from remote_datasource/src/main/AndroidManifest.xml
+rename to remote/src/main/AndroidManifest.xml
+diff --git a/remote_datasource/.gitignore b/remote/.gitignore
+rename from remote_datasource/.gitignore
+rename to remote/.gitignore
+diff --git a/remote_datasource/proguard-rules.pro b/remote/proguard-rules.pro
+rename from remote_datasource/proguard-rules.pro
+rename to remote/proguard-rules.pro
+diff --git a/remote_datasource/consumer-rules.pro b/remote/consumer-rules.pro
+rename from remote_datasource/consumer-rules.pro
+rename to remote/consumer-rules.pro
+diff --git a/usecase/consumer-rules.pro b/usecase/consumer-rules.pro
+new file mode 100644
+diff --git a/remote_datasource/src/main/java/com/example/remote_datasource/feed/Feed.kt b/remote/src/main/java/com/example/remote_datasource/feed/Feed.kt
+rename from remote_datasource/src/main/java/com/example/remote_datasource/feed/Feed.kt
+rename to remote/src/main/java/com/example/remote_datasource/feed/Feed.kt
+diff --git a/remote_datasource/src/main/java/com/example/remote_datasource/profile/Profile.kt b/remote/src/main/java/com/example/remote_datasource/profile/Profile.kt
+rename from remote_datasource/src/main/java/com/example/remote_datasource/profile/Profile.kt
+rename to remote/src/main/java/com/example/remote_datasource/profile/Profile.kt
+diff --git a/remote_datasource/src/androidTest/java/com/example/remote_datasource/ExampleInstrumentedTest.kt b/remote/src/androidTest/java/com/example/remote_datasource/ExampleInstrumentedTest.kt
+rename from remote_datasource/src/androidTest/java/com/example/remote_datasource/ExampleInstrumentedTest.kt
+rename to remote/src/androidTest/java/com/example/remote_datasource/ExampleInstrumentedTest.kt
+diff --git a/remote_datasource/src/test/java/com/example/remote_datasource/ExampleUnitTest.kt b/remote/src/test/java/com/example/remote_datasource/ExampleUnitTest.kt
+rename from remote_datasource/src/test/java/com/example/remote_datasource/ExampleUnitTest.kt
+rename to remote/src/test/java/com/example/remote_datasource/ExampleUnitTest.kt

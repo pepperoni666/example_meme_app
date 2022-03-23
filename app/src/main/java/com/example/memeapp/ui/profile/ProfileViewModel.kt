@@ -3,10 +3,8 @@ package com.example.memeapp.ui.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.remote_datasource.feed.FeedItem
-import com.example.remote_datasource.feed.FeedUseCase
-import com.example.remote_datasource.profile.ChangeNameUseCase
 import com.example.remote_datasource.profile.Profile
+import com.example.usecase.profile.ChangeNameUseCase
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent

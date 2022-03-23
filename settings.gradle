@@ -1,3 +1,4 @@
-include ':remote_datasource'
+include ':remote'
+include ':usecase'
 include ':app'
 rootProject.name = "MemeApp"
